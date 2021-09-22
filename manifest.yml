@@ -1,8 +1,5 @@
 ---
 applications:
-- name: cf-django-celery
-  command: bash init_app.sh
-  # command: gunicorn blupy.wsgi --workers=3
-- name: cf-django-celery_worker01
-  no-route: true
-  command: python manage.py celery worker -A cf-django-celery -l debug -c 3
+- name: cf-django-celery  
+  memory: 512M
+  command: bash init_app.shç
