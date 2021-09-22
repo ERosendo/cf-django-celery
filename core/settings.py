@@ -133,7 +133,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'profiles_api.UserProfile'
 
-if 'VCAP_SERVICES' in os.environ:
+if ('VCAP_SERVICES' in os.environ) and (json.loads(os.environ.get('VCAP_SERVICES'))):
     vcap_services = json.loads(os.environ.get('VCAP_SERVICES'))
     postgres_srv = vcap_services['databases-for-postgresql'][0]
     cred = postgres_srv['credentials']['connection']['postgres']
