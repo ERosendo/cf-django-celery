@@ -3,3 +3,7 @@ applications:
 - name: cf-django-celery  
   memory: 512M
   command: bash init_app.sh
+- name: cf-django-celery_worker01
+  memory: 512M
+  no-route: true
+  command: python manage.py celery worker -A cf-django-celery -l debug -c 3
