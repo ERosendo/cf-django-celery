@@ -2,4 +2,4 @@
 applications:
 - name: cf-django-celery  
   memory: 512M
-  command: bash init_app.shç
+  command: bash init_app.sh

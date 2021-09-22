@@ -4,4 +4,4 @@
 python manage.py migrate
 
 # run app
-gunicorn blupy.wsgi --workers=3
+gunicorn core.wsgi --workers=3
