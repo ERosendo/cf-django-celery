@@ -1,10 +1,10 @@
 ---
 applications:
-- name: blupy
-  host: blupy
+- name: cf-django-celery
+  host: cf-django-celery
   command: bash init_app.sh
   # command: gunicorn blupy.wsgi --workers=3
-- name: blupy_worker01
-  host: blupy_worker01
+- name: cf-django-celery_worker01
+  host: cf-django-celery_worker01
   no-route: true
-  command: python manage.py celery worker -A blupy -l debug -c 3
+  command: python manage.py celery worker -A cf-django-celery -l debug -c 3
