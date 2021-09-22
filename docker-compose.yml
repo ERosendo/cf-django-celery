@@ -1,0 +1,54 @@
+version: '3'
+
+services:
+  postgres:
+    restart: always
+    image: postgres:11
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+  pgadmin:
+    image: dpage/pgadmin4
+    depends_on:
+      - postgres
+    ports:
+      - "5555:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: tech@swearit.io
+      PGADMIN_DEFAULT_PASSWORD: swearit
+    restart: unless-stopped
+  
+  api:
+    restart: always
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    env_file: .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+  
+  rabbitmq:
+    container_name: broker
+    hostname: rabbitmq
+    image: rabbitmq:latest
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    restart: on-failure
+  
+  worker:
+    build: .
+    container_name: celery_worker
+    command: 'celery -A core worker -l info --pool=solo'   
+    env_file: .env
+    volumes:
+      - .:/code
+    depends_on:
+      - api
+      - postgres
+      - rabbitmq
+    restart: on-failure
